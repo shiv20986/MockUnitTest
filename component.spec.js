@@ -48,7 +48,7 @@ describe('<MyComponent />', function () {
       wrapper.find(PlayerList).simulate('selection', playerList[1])
     })
 
-    shouldHaveProps('Player Card props', wrapper.find(PlayerList), {
+    shouldHaveProps(wrapper.find(PlayerCard), {
       cardType: 'basic',
       className: 'red-border',
       player: playerList[1]
@@ -58,5 +58,16 @@ describe('<MyComponent />', function () {
       expect(callbackSpy).to.have.callCount(1)
       expect(callbackSpy).to.have.been.calledWith(playerList[1])
     })
+  })
+
+  it('should updating players to [] will pass null as player to PlayerCard', function () {
+    wrapper.setProps({players: []})
+    expect(wrapper.find(PlayerCard).prop('player')).to.equal(null);
+  })
+
+  it('should updating players will pass players[0] as player to PlayerCard', function () {
+    const updatedPlayers = [{name: 'X', score: 10, rating: 'x'}, {name: 'Y', score: 11, rating: 'b1'}]
+    wrapper.setProps({players: updatedPlayers})
+    expect(wrapper.find(PlayerCard).prop('player')).to.equal(updatedPlayers[0]);
   })
 })
